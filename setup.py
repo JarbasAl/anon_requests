@@ -4,7 +4,7 @@ setup(
     name='anon_requests',
     version='0.0.1',
     packages=['anon_requests', 'anon_requests.proxy_sources'],
-    url='',
+    url='https://github.com/OpenJarbas/anon_requests',
     install_requires=["PySocks>=1.5.7",
                       "requests>=2.11.0",
                       "stem>=1.4.0",
