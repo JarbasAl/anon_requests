@@ -6,7 +6,7 @@ import base64
 class FreeProxyCZ(ProxyGetter):
     url = 'http://free-proxy.cz/en/proxylist/country/all/all/ping/all'
 
-    def get_proxy_list(self, page_num=1):
+    def scrap_proxy_list(self, page_num=1):
         proxies = []
         page = self.session.get(self.url + "/" + str(page_num),
                                 headers=self.headers)
@@ -74,7 +74,7 @@ class FreeProxyCZ(ProxyGetter):
         # pagination
         if page_num < 5:
             try:
-                proxies += self.get_proxy_list(page_num + 1)
+                proxies += self.scrap_proxy_list(page_num + 1)
             except:
                 pass
         return proxies

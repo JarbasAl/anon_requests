@@ -5,7 +5,7 @@ import bs4
 class FreeProxyList(ProxyGetter):
     url = 'https://free-proxy-list.net'
 
-    def get_proxy_list(self):
+    def scrap_proxy_list(self):
         proxies = []
         page = self.session.get(self.url, headers=self.headers)
         doc = bs4.BeautifulSoup(page.content, features="html.parser")
@@ -47,7 +47,7 @@ class FreeProxyList(ProxyGetter):
 class SocksProxy(FreeProxyList):
     url = 'https://www.socks-proxy.net'
 
-    def get_proxy_list(self):
+    def scrap_proxy_list(self):
         proxies = []
         page = self.session.get(self.url)
         doc = bs4.BeautifulSoup(page.content, features="html.parser")

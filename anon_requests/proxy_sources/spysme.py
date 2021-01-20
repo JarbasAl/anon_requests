@@ -4,7 +4,7 @@ from anon_requests.proxy_sources import ProxyGetter, ProxyAnonymity, ProxyType
 class SpysMe(ProxyGetter):
     url = 'https://spys.me/proxy.txt'
 
-    def get_proxy_list(self):
+    def scrap_proxy_list(self):
         proxies = []
         page = self.session.get(self.url, headers=self.headers)
         data = [p.strip() for p in page.text.split("\n") if p and p[
@@ -45,40 +45,40 @@ class SpysMeGithub(SpysMe):
 class SpysMeHTTPSGithub(SpysMeGithub):
     url = 'https://raw.githubusercontent.com/clarketm/proxy-list/master/proxy-list.txt'
 
-    def get_proxy_list(self):
-        proxies = super().get_proxy_list()
+    def scrap_proxy_list(self):
+        proxies = super().scrap_proxy_list()
         return [p for p in proxies if p["proxy_type"] == ProxyType.HTTPS]
 
 
 class SpysMeHTTPS(SpysMe):
-    def get_proxy_list(self):
-        proxies = super().get_proxy_list()
+    def scrap_proxy_list(self):
+        proxies = super().scrap_proxy_list()
         return [p for p in proxies if p["proxy_type"] == ProxyType.HTTPS]
 
 
 class SpysMeAnonymous(SpysMe):
-    def get_proxy_list(self):
-        proxies = super().get_proxy_list()
+    def scrap_proxy_list(self):
+        proxies = super().scrap_proxy_list()
         return [p for p in proxies if
                 p["proxy_anonymity"] == ProxyAnonymity.ANONYMOUS]
 
 
 class SpysMeElite(SpysMe):
-    def get_proxy_list(self):
-        proxies = super().get_proxy_list()
+    def scrap_proxy_list(self):
+        proxies = super().scrap_proxy_list()
         return [p for p in proxies if
                 p["proxy_anonymity"] == ProxyAnonymity.ELITE]
 
 
 class SpysMeHTTPSAnonymous(SpysMeHTTPS):
-    def get_proxy_list(self):
-        proxies = super().get_proxy_list()
+    def scrap_proxy_list(self):
+        proxies = super().scrap_proxy_list()
         return [p for p in proxies if
                 p["proxy_anonymity"] == ProxyAnonymity.ANONYMOUS]
 
 
 class SpysMeHTTPSElite(SpysMeHTTPS):
-    def get_proxy_list(self):
-        proxies = super().get_proxy_list()
+    def scrap_proxy_list(self):
+        proxies = super().scrap_proxy_list()
         return [p for p in proxies if
                 p["proxy_anonymity"] == ProxyAnonymity.ELITE]

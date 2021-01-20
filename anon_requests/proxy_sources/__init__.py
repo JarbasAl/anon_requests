@@ -26,7 +26,9 @@ class ProxyType(str, Enum):
 class ProxyGetter:
     url = "google.com"
 
-    def __init__(self, headers=None, ttl=120, verbose=True, workers=20,
+    def __init__(self, proxy_type=ProxyType.ANY,
+                 proxy_anonymity=ProxyAnonymity.ANY, headers=None, ttl=120,
+                 verbose=False, workers=20,
                  test_url='http://ipecho.net/plain', timeout=5):
         self.used_proxies = []
         self.bad_proxies = []
@@ -40,6 +42,9 @@ class ProxyGetter:
         self.workers = workers
         self.test_url = test_url
         self.timeout = timeout
+        self.proxy_type = proxy_type
+        self.proxy_anonymity = proxy_anonymity
+        self.all_proxies = self.scrap_proxy_list()
 
     def get(self, proxy_anonymity=ProxyAnonymity.ANY,
             proxy_type=ProxyType.ANY, country_code=None, reuse=False):
@@ -89,8 +94,21 @@ class ProxyGetter:
         self.used_proxies.append(proxy)
         return proxy
 
+    def scrap_proxy_list(self):
+        raise NotImplementedError
+
     def get_proxy_list(self):
-        return []
+        proxies = self.all_proxies
+        if self.proxy_type != ProxyType.ANY:
+            proxies = [p for p in proxies if
+                       p["proxy_type"] == self.proxy_type]
+        if self.proxy_anonymity != ProxyAnonymity.ANY:
+            proxies = [p for p in proxies if
+                       p["proxy_anonymity"] == self.proxy_anonymity]
+        return proxies
+
+    def refresh_proxies(self):
+        self.all_proxies = self.scrap_proxy_list()
 
     def validate(self):
         if self.verbose:
@@ -128,4 +146,8 @@ class ProxyGetter:
                 else:
                     self.bad_proxies.append(proxy)
 
+    def remove_bad_proxies(self):
+        for p in self.bad_proxies:
+            if p in self.all_proxies:
+                self.all_proxies.remove(p)
 

@@ -16,17 +16,6 @@ import concurrent.futures
 
 
 class ProxyLeech(ProxyGetter):
-    def __init__(self, proxy_type=ProxyType.ANY,
-                 proxy_anonymity=ProxyAnonymity.ANY, headers=None, ttl=120,
-                 workers=20, test_url='http://ipecho.net/plain', timeout=5,
-                 verbose=True):
-        super(ProxyLeech, self).__init__(headers=headers, ttl=ttl,
-                                         test_url=test_url, timeout=timeout,
-                                         workers=workers, verbose=verbose)
-        self.proxy_type = proxy_type
-        self.proxy_anonymity = proxy_anonymity
-        self.all_proxies = self.scrap_proxy_list()
-
     def scrap_proxy_list(self):
         proxy_list = []
         if self.verbose:
@@ -39,7 +28,7 @@ class ProxyLeech(ProxyGetter):
                        UKProxy(), AnonProxies(), SpysOne(), ProxyNova()]
             # Start the scrap operations and mark each future with its source
             future_to_source = {
-                executor.submit(s.get_proxy_list): s for s in sources}
+                executor.submit(s.scrap_proxy_list): s for s in sources}
             for future in concurrent.futures.as_completed(future_to_source):
                 new = future.result()
                 proxy_list += new
@@ -48,27 +37,12 @@ class ProxyLeech(ProxyGetter):
                           len(new), "proxies scrapped")
         return proxy_list
 
-    def get_proxy_list(self):
-        proxies = self.all_proxies
-        if self.proxy_type != ProxyType.ANY:
-            proxies = [p for p in proxies if
-                       p["proxy_type"] == self.proxy_type]
-        if self.proxy_anonymity != ProxyAnonymity.ANY:
-            proxies = [p for p in proxies if
-                       p["proxy_anonymity"] == self.proxy_anonymity]
-        return proxies
-
-    def remove_bad_proxies(self):
-        for p in self.bad_proxies:
-            if p in self.all_proxies:
-                self.all_proxies.remove(p)
-
 
 class ProxySession(BaseSession):
     def __init__(self, proxy_provider=None,
                  proxy_type=ProxyType.ANY,
                  proxy_anonymity=ProxyAnonymity.ANY,
-                 country_codes=None, validate=False):
+                 country_codes=None, validate=False, ignore_bad=True):
         proxy_provider = proxy_provider or ProxyLeech(
             proxy_anonymity=proxy_anonymity, proxy_type=proxy_type)
         self.proxy_provider = proxy_provider
@@ -77,6 +51,8 @@ class ProxySession(BaseSession):
         self.country_codes = country_codes or []
         if validate:
             self.proxy_provider.validate()
+        if ignore_bad:
+            self.proxy_provider.remove_bad_proxies()
         super().__init__()
 
     @property

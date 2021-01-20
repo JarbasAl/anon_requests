@@ -5,7 +5,7 @@ import bs4
 class ProxyScan(ProxyGetter):
     url = 'https://www.proxyscan.io'
 
-    def get_proxy_list(self):
+    def scrap_proxy_list(self):
         proxies = []
         page = self.session.get(self.url, headers=self.headers)
         doc = bs4.BeautifulSoup(page.content, features="html.parser")
@@ -70,74 +70,74 @@ class ProxyScan(ProxyGetter):
 
 
 class ProxyScanHTTPS(ProxyScan):
-    def get_proxy_list(self):
-        proxies = super().get_proxy_list()
+    def scrap_proxy_list(self):
+        proxies = super().scrap_proxy_list()
         return [p for p in proxies if p["proxy_type"] == ProxyType.HTTPS]
 
 
 class ProxyScanSOCKS4(ProxyScan):
-    def get_proxy_list(self):
-        proxies = super().get_proxy_list()
+    def scrap_proxy_list(self):
+        proxies = super().scrap_proxy_list()
         return [p for p in proxies if p["proxy_type"] == ProxyType.SOCKS4]
 
 
 class ProxyScanSOCKS5(ProxyScan):
-    def get_proxy_list(self):
-        proxies = super().get_proxy_list()
+    def scrap_proxy_list(self):
+        proxies = super().scrap_proxy_list()
         return [p for p in proxies if p["proxy_type"] == ProxyType.SOCKS5]
 
 
 class ProxyScanAnonymous(ProxyScan):
-    def get_proxy_list(self):
-        proxies = super().get_proxy_list()
+    def scrap_proxy_list(self):
+        proxies = super().scrap_proxy_list()
         return [p for p in proxies if
                 p["proxy_anonymity"] == ProxyAnonymity.ANONYMOUS]
 
 
 class ProxyScanElite(ProxyScan):
-    def get_proxy_list(self):
-        proxies = super().get_proxy_list()
+    def scrap_proxy_list(self):
+        proxies = super().scrap_proxy_list()
         return [p for p in proxies if
                 p["proxy_anonymity"] == ProxyAnonymity.ELITE]
 
 
 class ProxyScanHTTPSAnonymous(ProxyScanHTTPS):
-    def get_proxy_list(self):
-        proxies = super().get_proxy_list()
+    def scrap_proxy_list(self):
+        proxies = super().scrap_proxy_list()
         return [p for p in proxies if
                 p["proxy_anonymity"] == ProxyAnonymity.ANONYMOUS]
 
 
 class ProxyScanHTTPSElite(ProxyScanHTTPS):
-    def get_proxy_list(self):
-        proxies = super().get_proxy_list()
+    def scrap_proxy_list(self):
+        proxies = super().scrap_proxy_list()
         return [p for p in proxies if
                 p["proxy_anonymity"] == ProxyAnonymity.ELITE]
 
 
 class ProxyScanSOCK4Anonymous(ProxyScanSOCKS4):
-    def get_proxy_list(self):
-        proxies = super().get_proxy_list()
+    def scrap_proxy_list(self):
+        proxies = super().scrap_proxy_list()
         return [p for p in proxies if
                 p["proxy_anonymity"] == ProxyAnonymity.ANONYMOUS]
 
 
 class ProxyScanSOCKS4Elite(ProxyScanSOCKS4):
-    def get_proxy_list(self):
-        proxies = super().get_proxy_list()
+    def scrap_proxy_list(self):
+        proxies = super().scrap_proxy_list()
         return [p for p in proxies if
                 p["proxy_anonymity"] == ProxyAnonymity.ELITE]
 
 
 class ProxyScanSOCKS5Anonymous(ProxyScanSOCKS5):
-    def get_proxy_list(self):
-        proxies = super().get_proxy_list()
+    def scrap_proxy_list(self):
+        proxies = super().scrap_proxy_list()
         return [p for p in proxies if
                 p["proxy_anonymity"] == ProxyAnonymity.ANONYMOUS]
 
 
 class ProxyScanSOCKS5Elite(ProxyScanSOCKS5):
-    def get_proxy_list(self):
-        proxies = super().get_proxy_list()
+    def scrap_proxy_list(self):
+        proxies = super().scrap_proxy_list()
         return [p for p in proxies if
                 p["proxy_anonymity"] == ProxyAnonymity.ELITE]

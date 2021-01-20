@@ -1,6 +1,9 @@
 from anon_requests import ProxySession, NoMoreProxies, \
     ProxyType, ProxyAnonymity
 
+
+# validate=True will check if all proxies are functioning (default False)
+# pass ignore_bad=False to not try the bad proxies at all (default True)
 with ProxySession(proxy_type=ProxyType.HTTPS,
                   proxy_anonymity=ProxyAnonymity.ELITE) as session:
     while True:

@@ -8,8 +8,7 @@ class ProxyDB(ProxyGetter):
 
     def __init__(self, scrap_countries=False,
                  transparent=True, anon=True, distorting=True, elite=True,
-                 protocols=None):
-        super().__init__()
+                 protocols=None, *args, **kwargs):
         self.scrap_countries = scrap_countries
         self.levels = []
         if transparent:
@@ -24,6 +23,7 @@ class ProxyDB(ProxyGetter):
             self.protocols = []  # no filter
         else:
             self.protocols = protocols or ["http", "https", "socks4", "socks5"]
+        super().__init__(*args, **kwargs)
 
     def _scrap_proxy_list(self, params):
         countries = [None, 'BD', 'IQ', 'HK', 'US', 'GB', 'PK', 'PL', 'SG',
@@ -53,7 +53,7 @@ class ProxyDB(ProxyGetter):
                 ping = fields[7]
                 ts = fields[-1]
                 proxy_urls = {
-                    "http":  ip + ":" + port,
+                    "http": ip + ":" + port,
                     "https": ip + ":" + port
                 }
                 proxy_type = ProxyType.HTTPS
@@ -62,14 +62,14 @@ class ProxyDB(ProxyGetter):
                 elif protocol == "socks4":
                     proxy_type = ProxyType.SOCKS4
                     proxy_urls = {
-                        "http":  "socks4://" + ip + ":" + port,
-                        "https":  "socks4://" + ip + ":" + port
+                        "http": "socks4://" + ip + ":" + port,
+                        "https": "socks4://" + ip + ":" + port
                     }
                 elif protocol == "socks5":
                     proxy_type = ProxyType.SOCKS5
                     proxy_urls = {
-                        "http":  "socks5://" + ip + ":" + port,
-                        "https":  "socks5://" + ip + ":" + port
+                        "http": "socks5://" + ip + ":" + port,
+                        "https": "socks5://" + ip + ":" + port
                     }
 
                 if anon == "elite":
@@ -92,7 +92,7 @@ class ProxyDB(ProxyGetter):
                        "urls": proxy_urls,
                        "last_checked": ts}
 
-    def get_proxy_list(self):
+    def scrap_proxy_list(self):
         proxies = []
         # 15 per page, trying these combinations will give more results
         # trying country code combinations will give even more results,
@@ -123,147 +123,147 @@ class ProxyDB(ProxyGetter):
 # convenience
 class ProxyDBHTTP(ProxyDB):
     def __init__(self, scrap_countries=False, transparent=True, anon=True,
-                 distorting=True, elite=True):
+                 distorting=True, elite=True, *args, **kwargs):
         super().__init__(scrap_countries, transparent, anon, distorting,
-                         elite, ["http"])
+                         elite, ["http"], *args, **kwargs)
 
 
 class ProxyDBHTTPS(ProxyDB):
     def __init__(self, scrap_countries=False, transparent=True, anon=True,
-                 distorting=True, elite=True):
+                 distorting=True, elite=True, *args, **kwargs):
         super().__init__(scrap_countries, transparent, anon, distorting,
-                         elite, ["https"])
+                         elite, ["https"], *args, **kwargs)
 
 
 class ProxyDBSOCKS4(ProxyDB):
     def __init__(self, scrap_countries=False, transparent=True, anon=True,
-                 distorting=True, elite=True):
+                 distorting=True, elite=True, *args, **kwargs):
         super().__init__(scrap_countries, transparent, anon, distorting,
-                         elite, ["socks4"])
+                         elite, ["socks4"], *args, **kwargs)
 
 
 class ProxyDBSOCKS5(ProxyDB):
     def __init__(self, scrap_countries=False, transparent=True, anon=True,
-                 distorting=True, elite=True):
+                 distorting=True, elite=True, *args, **kwargs):
         super().__init__(scrap_countries, transparent, anon, distorting,
-                         elite, ["socks5"])
+                         elite, ["socks5"], *args, **kwargs)
 
 
 class ProxyDBTransparent(ProxyDB):
-    def __init__(self, scrap_countries=False, protocols=None):
+    def __init__(self, scrap_countries=False, protocols=None, *args, **kwargs):
         transparent = True
         anon = False
         distorting = False
         elite = False
         super().__init__(scrap_countries, transparent, anon, distorting,
-                         elite, protocols)
+                         elite, protocols, *args, **kwargs)
 
 
 class ProxyDBAnonymous(ProxyDB):
-    def __init__(self, scrap_countries=False, protocols=None):
+    def __init__(self, scrap_countries=False, protocols=None, *args, **kwargs):
         transparent = False
         anon = True
         distorting = False
         elite = False
         super().__init__(scrap_countries, transparent, anon, distorting,
-                         elite, protocols)
+                         elite, protocols, *args, **kwargs)
 
 
 class ProxyDBDistorting(ProxyDB):
-    def __init__(self, scrap_countries=False, protocols=None):
+    def __init__(self, scrap_countries=False, protocols=None, *args, **kwargs):
         transparent = False
         anon = False
         distorting = True
         elite = False
         super().__init__(scrap_countries, transparent, anon, distorting,
-                         elite, protocols)
+                         elite, protocols, *args, **kwargs)
 
 
 class ProxyDBElite(ProxyDB):
-    def __init__(self, scrap_countries=False, protocols=None):
+    def __init__(self, scrap_countries=False, protocols=None, *args, **kwargs):
         transparent = False
         anon = False
         distorting = False
         elite = True
         super().__init__(scrap_countries, transparent, anon, distorting,
-                         elite, protocols)
+                         elite, protocols, *args, **kwargs)
 
 
 class ProxyDBTransparentHTTP(ProxyDBTransparent):
-    def __init__(self, scrap_countries=False):
-        super().__init__(scrap_countries, ["http"])
+    def __init__(self, scrap_countries=False, *args, **kwargs):
+        super().__init__(scrap_countries, ["http"], *args, **kwargs)
 
 
 class ProxyDBTransparentHTTPS(ProxyDBTransparent):
-    def __init__(self, scrap_countries=False):
-        super().__init__(scrap_countries, ["https"])
+    def __init__(self, scrap_countries=False, *args, **kwargs):
+        super().__init__(scrap_countries, ["https"], *args, **kwargs)
 
 
 class ProxyDBTransparentSOCKS4(ProxyDBTransparent):
-    def __init__(self, scrap_countries=False):
-        super().__init__(scrap_countries, ["socks4"])
+    def __init__(self, scrap_countries=False, *args, **kwargs):
+        super().__init__(scrap_countries, ["socks4"], *args, **kwargs)
 
 
 class ProxyDBTransparentSOCKS5(ProxyDBTransparent):
-    def __init__(self, scrap_countries=False):
-        super().__init__(scrap_countries, ["socks5"])
+    def __init__(self, scrap_countries=False, *args, **kwargs):
+        super().__init__(scrap_countries, ["socks5"], *args, **kwargs)
 
 
 class ProxyDBAnonymousHTTP(ProxyDBAnonymous):
-    def __init__(self, scrap_countries=False):
-        super().__init__(scrap_countries, ["http"])
+    def __init__(self, scrap_countries=False, *args, **kwargs):
+        super().__init__(scrap_countries, ["http"], *args, **kwargs)
 
 
 class ProxyDBAnonymousHTTPS(ProxyDBAnonymous):
-    def __init__(self, scrap_countries=False):
-        super().__init__(scrap_countries, ["https"])
+    def __init__(self, scrap_countries=False, *args, **kwargs):
+        super().__init__(scrap_countries, ["https"], *args, **kwargs)
 
 
 class ProxyDBAnonymousSOCKS4(ProxyDBAnonymous):
-    def __init__(self, scrap_countries=False):
-        super().__init__(scrap_countries, ["socks4"])
+    def __init__(self, scrap_countries=False, *args, **kwargs):
+        super().__init__(scrap_countries, ["socks4"], *args, **kwargs)
 
 
 class ProxyDBAnonymousSOCKS5(ProxyDBAnonymous):
-    def __init__(self, scrap_countries=False):
-        super().__init__(scrap_countries, ["socks5"])
+    def __init__(self, scrap_countries=False, *args, **kwargs):
+        super().__init__(scrap_countries, ["socks5"], *args, **kwargs)
 
 
 class ProxyDBDistortingHTTP(ProxyDBDistorting):
-    def __init__(self, scrap_countries=False):
-        super().__init__(scrap_countries, ["http"])
+    def __init__(self, scrap_countries=False, *args, **kwargs):
+        super().__init__(scrap_countries, ["http"], *args, **kwargs)
 
 
 class ProxyDBDistortingHTTPS(ProxyDBDistorting):
-    def __init__(self, scrap_countries=False):
-        super().__init__(scrap_countries, ["https"])
+    def __init__(self, scrap_countries=False, *args, **kwargs):
+        super().__init__(scrap_countries, ["https"], *args, **kwargs)
 
 
 class ProxyDBDistortingSOCKS4(ProxyDBDistorting):
-    def __init__(self, scrap_countries=False):
-        super().__init__(scrap_countries, ["socks4"])
+    def __init__(self, scrap_countries=False, *args, **kwargs):
+        super().__init__(scrap_countries, ["socks4"], *args, **kwargs)
 
 
 class ProxyDBDistortingSOCKS5(ProxyDBDistorting):
-    def __init__(self, scrap_countries=False):
-        super().__init__(scrap_countries, ["socks5"])
+    def __init__(self, scrap_countries=False, *args, **kwargs):
+        super().__init__(scrap_countries, ["socks5"], *args, **kwargs)
 
 
 class ProxyDBEliteHTTP(ProxyDBElite):
-    def __init__(self, scrap_countries=False):
-        super().__init__(scrap_countries, ["http"])
+    def __init__(self, scrap_countries=False, *args, **kwargs):
+        super().__init__(scrap_countries, ["http"], *args, **kwargs)
 
 
 class ProxyDBEliteHTTPS(ProxyDBElite):
-    def __init__(self, scrap_countries=False):
-        super().__init__(scrap_countries, ["https"])
+    def __init__(self, scrap_countries=False, *args, **kwargs):
+        super().__init__(scrap_countries, ["https"], *args, **kwargs)
 
 
 class ProxyDBEliteSOCKS4(ProxyDBElite):
-    def __init__(self, scrap_countries=False):
-        super().__init__(scrap_countries, ["socks4"])
+    def __init__(self, scrap_countries=False, *args, **kwargs):
+        super().__init__(scrap_countries, ["socks4"], *args, **kwargs)
 
 
 class ProxyDBEliteSOCKS5(ProxyDBElite):
-    def __init__(self, scrap_countries=False):
-        super().__init__(scrap_countries, ["socks5"])
+    def __init__(self, scrap_countries=False, *args, **kwargs):
+        super().__init__(scrap_countries, ["socks5"], *args, **kwargs)

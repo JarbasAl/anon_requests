@@ -68,3 +68,25 @@ class TorSession(BaseSession):
 
     def _new_circuit_async(self):
         self.ctrl.signal(stem.Signal.NEWNYM)
+
+
+class RotatingTorSession(TorSession):
+    def get(self, *args, **kwargs):
+        self.rotate_identity()
+        return super().get(*args, **kwargs)
+
+    def post(self, *args, **kwargs):
+        self.rotate_identity()
+        return super().post(*args, **kwargs)
+
+    def put(self, *args, **kwargs):
+        self.rotate_identity()
+        return super().put(*args, **kwargs)
+
+    def patch(self, *args, **kwargs):
+        self.rotate_identity()
+        return super().patch(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        self.rotate_identity()
+        return super().delete(*args, **kwargs)

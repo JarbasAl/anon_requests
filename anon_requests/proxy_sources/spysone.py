@@ -6,7 +6,7 @@ import concurrent.futures
 class SpysOne(ProxyGetter):
     url = 'https://spys.one/proxy-port/'
 
-    def get_proxy_list(self):
+    def scrap_proxy_list(self):
 
         # top 32 ports
         top32 = ["8080", "3128", "1080", "80", "999", "5836", "9999",

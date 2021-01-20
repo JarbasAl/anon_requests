@@ -5,11 +5,11 @@ import bs4
 class HideMyName(ProxyGetter):
     url = 'https://hidemy.name/en/proxy-list'
 
-    def __init__(self, params=None, headers=None):
-        super(HideMyName, self).__init__(headers)
+    def __init__(self, params=None, *args, **kwargs):
         self.params = params or {}
+        super(HideMyName, self).__init__(*args, **kwargs)
 
-    def get_proxy_list(self):
+    def scrap_proxy_list(self):
         proxies = []
         # TODO pagination, params: start += 64
         page = self.session.get(self.url,
@@ -28,8 +28,8 @@ class HideMyName(ProxyGetter):
                 -1].split("\"></i>")[0].upper()
             proxy_type = proxy_type.replace(" proxy", "").lower()
             proxy_urls = {
-                "http":  ip + ":" + port,
-                "https":  ip + ":" + port
+                "http": ip + ":" + port,
+                "https": ip + ":" + port
             }
 
             if "socks5" in proxy_type:
@@ -68,120 +68,120 @@ class HideMyName(ProxyGetter):
 
 # Convenience filtering
 class HideMyNameHTTP(HideMyName):
-    def __init__(self):
-        super().__init__({"type": "h"})
+    def __init__(self, *args, **kwargs):
+        super().__init__({"type": "h"}, *args, **kwargs)
 
 
 class HideMyNameHTTPS(HideMyName):
-    def __init__(self):
-        super().__init__({"type": "s"})
+    def __init__(self, *args, **kwargs):
+        super().__init__({"type": "s"}, *args, **kwargs)
 
 
 class HideMyNameSOCKS4(HideMyName):
-    def __init__(self):
-        super().__init__({"type": "4"})
+    def __init__(self, *args, **kwargs):
+        super().__init__({"type": "4"}, *args, **kwargs)
 
 
 class HideMyNameSOCKS5(HideMyName):
-    def __init__(self):
-        super().__init__({"type": "5"})
+    def __init__(self, *args, **kwargs):
+        super().__init__({"type": "5"}, *args, **kwargs)
 
 
 class HideMyNameElite(HideMyName):
-    def __init__(self):
-        super().__init__({"anon": "4"})
+    def __init__(self, *args, **kwargs):
+        super().__init__({"anon": "4"}, *args, **kwargs)
 
 
 class HideMyNameDistorting(HideMyName):
-    def __init__(self):
-        super().__init__({"anon": "3"})
+    def __init__(self, *args, **kwargs):
+        super().__init__({"anon": "3"}, *args, **kwargs)
 
 
 class HideMyNameAnonymous(HideMyName):
-    def __init__(self):
-        super().__init__({"anon": "2"})
+    def __init__(self, *args, **kwargs):
+        super().__init__({"anon": "2"}, *args, **kwargs)
 
 
 class HideMyNameTransparent(HideMyName):
-    def __init__(self):
-        super().__init__({"anon": "1"})
+    def __init__(self, *args, **kwargs):
+        super().__init__({"anon": "1"}, *args, **kwargs)
 
 
 class HideMyNameEliteHTTP(HideMyName):
-    def __init__(self):
-        super().__init__({"anon": "4", "type": "h"})
+    def __init__(self, *args, **kwargs):
+        super().__init__({"anon": "4", "type": "h"}, *args, **kwargs)
 
 
 class HideMyNameAnonymousHTTP(HideMyName):
-    def __init__(self):
-        super().__init__({"anon": "2", "type": "h"})
+    def __init__(self, *args, **kwargs):
+        super().__init__({"anon": "2", "type": "h"}, *args, **kwargs)
 
 
 class HideMyNameDistortingHTTP(HideMyName):
-    def __init__(self):
-        super().__init__({"anon": "3", "type": "h"})
+    def __init__(self, *args, **kwargs):
+        super().__init__({"anon": "3", "type": "h"}, *args, **kwargs)
 
 
 class HideMyNameTransparentHTTP(HideMyName):
-    def __init__(self):
-        super().__init__({"anon": "1", "type": "h"})
+    def __init__(self, *args, **kwargs):
+        super().__init__({"anon": "1", "type": "h"}, *args, **kwargs)
 
 
 class HideMyNameEliteHTTPS(HideMyName):
-    def __init__(self):
-        super().__init__({"anon": "4", "type": "s"})
+    def __init__(self, *args, **kwargs):
+        super().__init__({"anon": "4", "type": "s"}, *args, **kwargs)
 
 
 class HideMyNameAnonymousHTTPS(HideMyName):
-    def __init__(self):
-        super().__init__({"anon": "2", "type": "s"})
+    def __init__(self, *args, **kwargs):
+        super().__init__({"anon": "2", "type": "s"}, *args, **kwargs)
 
 
 class HideMyNameDistortingHTTPS(HideMyName):
-    def __init__(self):
-        super().__init__({"anon": "3", "type": "s"})
+    def __init__(self, *args, **kwargs):
+        super().__init__({"anon": "3", "type": "s"}, *args, **kwargs)
 
 
 class HideMyNameTransparentHTTPS(HideMyName):
-    def __init__(self):
-        super().__init__({"anon": "1", "type": "s"})
+    def __init__(self, *args, **kwargs):
+        super().__init__({"anon": "1", "type": "s"}, *args, **kwargs)
 
 
 class HideMyNameEliteSOCKS5(HideMyName):
-    def __init__(self):
-        super().__init__({"anon": "4", "type": "5"})
+    def __init__(self, *args, **kwargs):
+        super().__init__({"anon": "4", "type": "5"}, *args, **kwargs)
 
 
 class HideMyNameAnonymousSOCKS5(HideMyName):
-    def __init__(self):
-        super().__init__({"anon": "2", "type": "5"})
+    def __init__(self, *args, **kwargs):
+        super().__init__({"anon": "2", "type": "5"}, *args, **kwargs)
 
 
 class HideMyNameDistortingSOCKS5(HideMyName):
-    def __init__(self):
-        super().__init__({"anon": "3", "type": "5"})
+    def __init__(self, *args, **kwargs):
+        super().__init__({"anon": "3", "type": "5"}, *args, **kwargs)
 
 
 class HideMyNameTransparentSOCKS5(HideMyName):
-    def __init__(self):
-        super().__init__({"anon": "1", "type": "5"})
+    def __init__(self, *args, **kwargs):
+        super().__init__({"anon": "1", "type": "5"}, *args, **kwargs)
 
 
 class HideMyNameEliteSOCKS4(HideMyName):
-    def __init__(self):
-        super().__init__({"anon": "4", "type": "4"})
+    def __init__(self, *args, **kwargs):
+        super().__init__({"anon": "4", "type": "4"}, *args, **kwargs)
 
 
 class HideMyNameAnonymousSOCKS4(HideMyName):
-    def __init__(self):
-        super().__init__({"anon": "2", "type": "4"})
+    def __init__(self, *args, **kwargs):
+        super().__init__({"anon": "2", "type": "4"}, *args, **kwargs)
 
 
 class HideMyNameDistortingSOCKS4(HideMyName):
-    def __init__(self):
-        super().__init__({"anon": "3", "type": "4"})
+    def __init__(self, *args, **kwargs):
+        super().__init__({"anon": "3", "type": "4"}, *args, **kwargs)
 
 
 class HideMyNameTransparentSOCKS4(HideMyName):
-    def __init__(self):
-        super().__init__({"anon": "1", "type": "4"})
+    def __init__(self, *args, **kwargs):
+        super().__init__({"anon": "1", "type": "4"}, *args, **kwargs)

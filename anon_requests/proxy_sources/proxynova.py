@@ -6,7 +6,7 @@ import concurrent.futures
 class ProxyNova(ProxyGetter):
     url = 'https://www.proxynova.com/proxy-server-list/'
 
-    def get_proxy_list(self):
+    def scrap_proxy_list(self):
         scrapped = []
         urls = [self.url]
         country_list = ["us", "ca", "br", "ar", "ve", "gb", "ru", "fr",
@@ -72,22 +72,22 @@ class ProxyNova(ProxyGetter):
 
 
 class ProxyNovaTransparent(ProxyNova):
-    def get_proxy_list(self):
-        proxies = super().get_proxy_list()
+    def scrap_proxy_list(self):
+        proxies = super().scrap_proxy_list()
         return [p for p in proxies if
                 p["proxy_anonymity"] == ProxyAnonymity.TRANSPARENT]
 
 
 class ProxyNovaAnonymous(ProxyNova):
-    def get_proxy_list(self):
-        proxies = super().get_proxy_list()
+    def scrap_proxy_list(self):
+        proxies = super().scrap_proxy_list()
         return [p for p in proxies if
                 p["proxy_anonymity"] == ProxyAnonymity.ANONYMOUS]
 
 
 class ProxyNovaElite(ProxyNova):
-    def get_proxy_list(self):
-        proxies = super().get_proxy_list()
+    def scrap_proxy_list(self):
+        proxies = super().scrap_proxy_list()
         return [p for p in proxies if
                 p["proxy_anonymity"] == ProxyAnonymity.ELITE]
 

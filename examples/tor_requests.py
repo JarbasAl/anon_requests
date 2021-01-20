@@ -9,10 +9,8 @@ from anon_requests import TorSession
 # and terminate it at the end.
 with TorSession(proxy_port=9050, ctrl_port=9051,
                 password="MYSUPERSAFEPSWD") as session:
-    for i in range(0, 5):
-        try:
-            response = session.get('https://ipecho.net/plain')
-            print(response.text)  # not your IP address
-            session.rotate_identity()
-        except KeyboardInterrupt:
-            break
+    response = session.get('https://ipecho.net/plain')
+    print(response.text)  # not your IP address
+    session.rotate_identity()  # change circuit
+    response = session.get('https://ipecho.net/plain')
+    print(response.text)  # still not your IP address
