@@ -24,7 +24,7 @@ from anon_requests import ProxyType
 # pass ignore_bad=False to not try the "bad" proxies at all (default True)
 with RotatingProxySession(proxy_type=ProxyType.SOCKS5, validate=True) \
         as session:
-    for i in range(50):
+    for i in range(5):
         # every request rotates proxy before being made
         # keeps trying until we get 200 status code
         # will only repeat a proxy once all have been tried
@@ -45,12 +45,9 @@ from anon_requests import RotatingTorSession
 # and terminate it at the end.
 with RotatingTorSession(proxy_port=9050, ctrl_port=9051,
                         password="MYSUPERSAFEPSWD") as session:
-    for i in range(0, 5):
-        try:
-            response = session.get('https://ipecho.net/plain')
-            print(response.text)  # not your IP address, different every time
-        except KeyboardInterrupt:
-            break
+    for i in range(5):
+        response = session.get('https://ipecho.net/plain')
+        print(response.text)  # not your IP address, different every time
 ```
 
 ## Proxy Sources
