@@ -52,3 +52,25 @@ with RotatingTorSession(proxy_port=9050, ctrl_port=9051,
         except KeyboardInterrupt:
             break
 ```
+
+## Proxy Sources
+
+Proxies are scrapped from the following websites
+
+- http://free-proxy.cz
+- https://free-proxy-list.net
+- https://www.socks-proxy.net
+- https://www.sslproxies.org
+- https://www.us-proxy.org
+- https://hidemy.name
+- http://proxydb.net
+- https://www.proxynova.com
+- https://www.proxyscan.io
+- http://pubproxy.com
+- https://spys.me
+- https://spys.one
+
+## TODO
+
+- import/export proxy list
+- suggest more in github issues!
