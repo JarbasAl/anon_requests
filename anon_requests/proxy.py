@@ -10,6 +10,8 @@ from anon_requests.proxy_sources.pubproxy import PubProxy
 from anon_requests.proxy_sources.spysme import SpysMe
 from anon_requests.proxy_sources.spysone import SpysOne
 from anon_requests.proxy_sources.proxynova import ProxyNova
+from anon_requests.proxy_sources.my_proxy import MyProxy
+from anon_requests.proxy_sources.ssh_ocean import SSHOcean
 from anon_requests.exceptions import NoMoreProxies
 import random
 import concurrent.futures
@@ -22,8 +24,8 @@ class ProxyLeech(ProxyGetter):
             print("scrapping proxies")
         with concurrent.futures.ThreadPoolExecutor(max_workers=self.workers) \
                 as executor:
-            sources = [SSLProxies(), HideMyName(), FreeProxyCZ(),
-                       ProxyDB(), ProxyScan(), PubProxy(),
+            sources = [SSLProxies(), HideMyName(), FreeProxyCZ(), SSHOcean(),
+                       ProxyDB(), ProxyScan(), PubProxy(), MyProxy(),
                        SpysMe(), FreeProxyList(), SocksProxy(), USProxy(),
                        UKProxy(), AnonProxies(), SpysOne(), ProxyNova()]
             # Start the scrap operations and mark each future with its source
