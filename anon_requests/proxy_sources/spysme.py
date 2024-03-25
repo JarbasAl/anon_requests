@@ -10,30 +10,33 @@ class SpysMe(ProxyGetter):
         data = [p.strip() for p in page.text.split("\n") if p and p[
             0].isdigit()]
         for p in data:
-            p = p.replace("!", "")
-            proxy, fields = p.split(" ")[:2]
-            ip, port = proxy.split(":")
-            if fields.endswith("-S"):
-                proxy_type = ProxyType.HTTPS
-                fields = fields[:-2]
-            else:
-                proxy_type = ProxyType.HTTP
+            try:
+                p = p.replace("!", "")
+                proxy, fields = p.split(" ")[:2]
+                ip, port = proxy.split(":")
+                if fields.endswith("-S"):
+                    proxy_type = ProxyType.HTTPS
+                    fields = fields[:-2]
+                else:
+                    proxy_type = ProxyType.HTTP
 
-            country_code, anon = fields.split("-")
-            if anon == "H":
-                anon = ProxyAnonymity.ELITE
-            elif anon == "A":
-                anon = ProxyAnonymity.ANONYMOUS
-            else:
-                anon = ProxyAnonymity.TRANSPARENT
-            proxies.append({"ip": ip,
-                            "port": port,
-                            "country_code": country_code,
-                            "proxy_anonymity": anon,
-                            "proxy_type": proxy_type,
-                            "urls": {"http": proxy,
-                                     "https": proxy}
-                            })
+                country_code, anon = fields.split("-")
+                if anon == "H":
+                    anon = ProxyAnonymity.ELITE
+                elif anon == "A":
+                    anon = ProxyAnonymity.ANONYMOUS
+                else:
+                    anon = ProxyAnonymity.TRANSPARENT
+                proxies.append({"ip": ip,
+                                "port": port,
+                                "country_code": country_code,
+                                "proxy_anonymity": anon,
+                                "proxy_type": proxy_type,
+                                "urls": {"http": proxy,
+                                         "https": proxy}
+                                })
+            except:
+                pass
         return proxies
 
 
